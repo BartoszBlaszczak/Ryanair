@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="Ryanair:war">
+    <output-path>$PROJECT_DIR$/out/artifacts/Ryanair</output-path>
+    <root id="archive" name="Ryanair.war">
+      <element id="artifact" artifact-name="Ryanair:war exploded" />
+    </root>
+  </artifact>
+</component>

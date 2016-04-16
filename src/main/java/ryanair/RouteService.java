@@ -13,7 +13,7 @@ import static java.util.Arrays.stream;
 @Service
 public class RouteService {
     private final RestTemplate restTemplate = new RestTemplate();
-    private static final int MAX_CHANGES = 1; // TODO:: do propsów
+    private static final int MAX_CHANGES = 1;
     private static final String URL_GET_ROUTES = "https://api.ryanair.com/core/3/routes/";
 
     public List<Route> getTravelRoutes(String departure, String arrival) {
