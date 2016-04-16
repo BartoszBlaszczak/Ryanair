@@ -29,6 +29,7 @@ public class TravelService {
     private final RestTemplate restTemplate = new RestTemplate();
     private final String URL_GET_SCHEDULES = "https://api.ryanair.com/timetable/3/schedules/%s/%s/years/%d/months/%d";
     private static final int STARTING_CHANGE_NUMBER = 0;
+    private static final int DEFAULT_CHANGE_WAIT_HOURS = 2;
 
     public List<Travel> getTravels(Request request) {
         List<Route> routes = routeService.getTravelRoutes(request.getDeparture(), request.getArrival());
@@ -83,7 +84,8 @@ public class TravelService {
             else {
                 List<Flight>  newTravelFlights = new ArrayList<>(travelFlights);
                 newTravelFlights.add(flight);
-                populateFlightsResult(availableSectionsFlights, ++sectionNumber, newTravelFlights, departureDateTime.plusHours(2), arrivalDateTime, flightsResult);
+                populateFlightsResult(availableSectionsFlights, sectionNumber+1, newTravelFlights,
+                        flight.getArrivalDateTime().plusHours(DEFAULT_CHANGE_WAIT_HOURS), arrivalDateTime, flightsResult);
             }
         }
     }
@@ -94,7 +96,7 @@ public class TravelService {
             return stream(scheduleDays).flatMap(day -> stream(day.getFlights()).map(flight ->
                     new Flight(departure, arrival, yearMonth, day.getDay(), flight))).toArray(Flight[]::new);
         }
-        catch (HttpClientErrorException e) {throw new ResourceNotFoundException();}
+        catch (HttpClientErrorException e) {return new Flight[0];}
     }
 
     private String getSchedulesUrl(String departure, String arrival, YearMonth yearMonth) {

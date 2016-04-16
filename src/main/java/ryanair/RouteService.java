@@ -33,7 +33,7 @@ public class RouteService {
             }
             else if (changeNumber <= MAX_CHANGES-1) {
                 List<Section> newRouteSections = new ArrayList<>(routeSections); newRouteSections.add(section);
-                createTravelRoutes(routes, allSections, newRouteSections, ++changeNumber, section.getAirportTo(), arrivalAirport);
+                createTravelRoutes(routes, allSections, newRouteSections, changeNumber+1, section.getAirportTo(), arrivalAirport);
             }
         }
     }
