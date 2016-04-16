@@ -76,17 +76,13 @@ public class TravelService {
                 .filter(flight -> flight.getArrivalDateTime().isBefore(arrivalDateTime)).collect(toList());
 
         for (Flight flight : sectionValidFlights) {
-            if (sectionNumber == availableSectionsFlights.size() - 1) {
-                List<Flight>  validTravelFlights = new ArrayList<>(travelFlights);
-                validTravelFlights.add(flight);
-                flightsResult.add(validTravelFlights);
-            }
-            else {
-                List<Flight>  newTravelFlights = new ArrayList<>(travelFlights);
-                newTravelFlights.add(flight);
-                populateFlightsResult(availableSectionsFlights, sectionNumber+1, newTravelFlights,
+            List<Flight>  newTravelFlights = new ArrayList<>(travelFlights);
+            newTravelFlights.add(flight);
+
+            if (sectionNumber == availableSectionsFlights.size() - 1)
+                flightsResult.add(newTravelFlights);
+            else populateFlightsResult(availableSectionsFlights, sectionNumber+1, newTravelFlights,
                         flight.getArrivalDateTime().plusHours(DEFAULT_CHANGE_WAIT_HOURS), arrivalDateTime, flightsResult);
-            }
         }
     }
 
